@@ -1,0 +1,64 @@
+import math
+g = 9.81
+
+def ball_chain(D, L, h_below):
+    d = 1 + (2/3) * (D/L)**2
+    sin2_theta = ((1 +D/L -d)*(1+d)) / ((1 +D/L +d)*(5 +3*D/L))
+    theta = math.degrees(math.asin(math.sqrt(sin2_theta)))
+    h_ratio = ((1 +D/L -d) / (1+d)) * (1 -(3/5)*((2 +D/L)*d) / ((1 +D/L +d)*(5 +3*D/L)))
+    h_above = h_ratio * h_below
+    v_ratio = math.sqrt(0.5 * (1+h_ratio))
+    v_freefall = math.sqrt(2*g*h_below)
+    v = v_ratio * v_freefall
+    return d, theta, h_ratio, h_above, v_ratio, v
+
+def bar_chain(D, L, S, h_below):
+    Ms_ratio = (2*D) / (2*D + 3*S)
+    Mc_ratio = (3*S) / (2*D + 3*S)
+    d = (1-(S/L))**2 + Ms_ratio*((2/3)*(D/L)**2 + (S/L)*(D/L) + (S/L)**2) + Mc_ratio*(0.5*(D/L)**2 + (1/3)*(S/L)**2)
+    sin2_theta = ((1 +D/L -d)*(1+d)) / ((1 +D/L +d)*(5 +3*D/L))
+    theta = math.degrees(math.asin(math.sqrt(sin2_theta)))
+    h_ratio = ((1 +D/L -d) / (1+d)) * (1 -(3/5)*((2 +D/L)*d) / ((1 +D/L +d)*(5 +3*D/L)))
+    h_above = h_ratio * h_below
+    v_ratio = math.sqrt(0.5 * (1+h_ratio))
+    v_freefall = math.sqrt(2*g*h_below)
+    v = v_ratio * v_freefall
+    return d, theta, h_ratio, h_above, v_ratio, v
+
+while True:
+    typ = input("Select Chain Type(ball or bar): ")
+    if typ == "ball":
+        D = float(input("Input diameter D (cm): "))
+        L = float(input("Input length L (cm): "))
+        h_below = float(input("Input the height below the container h_below (m): "))
+        if D <= 0 or L <= 0 or h_below <= 0:
+            print("All values must be positive.")
+            continue
+        result = ball_chain(D, L, h_below)
+        break
+
+    elif typ == "bar":
+        D = float(input("Input diameter D (cm): "))
+        L = float(input("Input length L (cm): "))
+        S = float(input("Input cylindrical section length S (cm): "))
+        h_below = float(input("Input the height below the container h_below (m): "))
+        if D <= 0 or L <= 0 or S <= 0 or h_below <= 0:
+            print("All values must be positive.")
+            continue
+        if L <= 2*S + D:
+            print("L must be greater than 2S + D.")
+            continue
+        result = bar_chain(D, L, S, h_below)
+        break
+    
+    else:
+        print("Select ball or bar")
+
+d, theta, h_ratio, h_above, v_ratio, v = result
+print("===== Results =====")
+print(f"d = {d:.4f}")
+print(f"Critical angle = {theta:.2f} degrees")
+print(f"h_above / h_below = {h_ratio:.4f}")
+print(f"h_above = {h_above:.4f} m")
+print(f"V / V_freefall = {v_ratio:.4f}")
+print(f"V = {v:.4f} m/s")
