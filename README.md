@@ -5,7 +5,7 @@ Chain Fountain simulation
 - Programming language : Python
 - Description : This simulation computes the critical angle, the height that the chain is lifted off, and the steady-state chain speed based on the equations of the Pantaleone's paper.
 - How to use this :
-  1. Select chain types : Type `ball` or `bar` when prompted.
+  1. Select chain types : Choose the chain type ("ball" or "bar")
   2. Enter parameters: Input the physical values following the units requested:
    - D (Diameter in cm)
    - L (Length in cm, for ball chains it is length between two centers, and for bar chains it it length between two outer hemisphere's center)
